@@ -24,6 +24,7 @@ In this list, the two entries that sum to 2020 are 1721 and 299. Multiplying the
 
 Of course, your expense report is much larger. Find the two entries that sum to 2020; what do you get if you multiply them together?
 """
+from itertools import combinations
 from math import prod
 from pathlib import Path
 from typing import Generator, Iterable, Tuple
@@ -39,21 +40,32 @@ def gen_inputs(file_path: Path) -> Generator[int, None, None]:
         yield from (int(line.strip()) for line in f)
 
 
-def find_complement_values(nums: Iterable[int], target: int) -> Tuple[int, int]:
-    seen = set()
+def find_n_complement_values(nums: Iterable[int], target: int, n_terms: int) -> tuple:
+    """
+    Given an iterable of integers, a target number, and a number of terms;
+    return a Tuple of integers representing the combination of terms found
+    in the iterable that -- when summed together -- equal the target integer.
 
-    for num in nums:
-        compliment = target - num
+    If no match is found, return a tuple of zeros with a length equal to
+    n_terms.
+    """
+    product_filter = lambda combination: sum(combination) == target
+    possible_combinations = combinations(nums, n_terms)
 
-        if compliment in seen:
-            return num, compliment
-        else:
-            seen.add(num)
+    try:
+        return next(filter(product_filter, possible_combinations))
 
-    return 0, 0
+    except StopIteration:
+        return tuple([0] * n_terms)
 
 
 if __name__ == "__main__":
-    inputs = gen_inputs(DATA_DIR / "day1.txt")
-    answer = prod(find_complement_values(inputs, 2020))
-    print(answer if answer != 0 else "No complementary pairs found")
+    answer_one = prod(
+        find_n_complement_values(gen_inputs(DATA_DIR / "day1.txt"), 2020, 2)
+    )
+    print(f"{answer_one = }" if answer_one != 0 else "No solution for part one")
+
+    answer_two = prod(
+        find_n_complement_values(gen_inputs(DATA_DIR / "day1.txt"), 2020, 3)
+    )
+    print(f"{answer_two = }" if answer_two != 0 else "No solution for part two")
