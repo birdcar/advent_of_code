@@ -15,7 +15,7 @@ help:
 	@echo "-------------------------------------"
 
 test:
-	@python -m unittest
+	@python -m unittest --verbose
 
 deps:
 	pip-compile --output-file=requirements.txt requirements.in
