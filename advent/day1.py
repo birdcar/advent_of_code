@@ -27,9 +27,9 @@ Of course, your expense report is much larger. Find the two entries that sum to 
 from itertools import combinations
 from math import prod
 from pathlib import Path
-from typing import Generator, Iterable, Tuple
+from typing import Generator, Iterable
 
-from . import DATA_DIR
+from .utils import DATA_DIR
 
 
 def gen_inputs(file_path: Path) -> Generator[int, None, None]:
