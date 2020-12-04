@@ -26,18 +26,9 @@ Of course, your expense report is much larger. Find the two entries that sum to 
 """
 from itertools import combinations
 from math import prod
-from pathlib import Path
-from typing import Generator, Iterable
+from typing import Iterable
 
-from .utils import DATA_DIR
-
-
-def gen_inputs(file_path: Path) -> Generator[int, None, None]:
-    """
-    Gather input data from a file and yield each line as an int
-    """
-    with open(file_path) as f:
-        yield from (int(line.strip()) for line in f)
+from .utils import DATA_DIR, gen_inputs
 
 
 def find_n_complement_values(nums: Iterable[int], target: int, n_terms: int) -> tuple:
@@ -61,11 +52,11 @@ def find_n_complement_values(nums: Iterable[int], target: int, n_terms: int) -> 
 
 if __name__ == "__main__":
     answer_one = prod(
-        find_n_complement_values(gen_inputs(DATA_DIR / "day1.txt"), 2020, 2)
+        find_n_complement_values(gen_inputs(DATA_DIR / "day1.txt", int), 2020, 2)
     )
     print(f"{answer_one = }" if answer_one != 0 else "No solution for part one")
 
     answer_two = prod(
-        find_n_complement_values(gen_inputs(DATA_DIR / "day1.txt"), 2020, 3)
+        find_n_complement_values(gen_inputs(DATA_DIR / "day1.txt", int), 2020, 3)
     )
     print(f"{answer_two = }" if answer_two != 0 else "No solution for part two")
